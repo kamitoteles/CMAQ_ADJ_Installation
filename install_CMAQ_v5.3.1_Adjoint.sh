@@ -28,6 +28,7 @@ do
     read -p 'Enter the home directory ' HOME_D
     read -p 'Enter the Intel compilervars.sh path ' COMP_VARS
     read -p 'Enter the Intel mpivars.sh path '  MPI_VARS
+    read -p 'Enter the Intel psxevars.sh path '  PS_VARS
     read -p 'Enter the CC compiler path ' CC
     read -p 'Enter the Fortran compiler path ' FC
     read -p 'Enter the C++ compiler path ' CXX
@@ -43,7 +44,7 @@ do
     # Set the compiler libraries
     source "${COMP_VARS}" -arch intel64 -platform linux
     source "${MPI_VARS}"
-    source /hpcfs/home/ca.moreno12/intel/parallel_studio_xe_2020/psxevars.sh
+    source PS_VARS
     echo -e "\n The PATH is \n"
     echo $PATH
 
@@ -108,24 +109,26 @@ git clone https://github.com/cjcoats/ioapi-3.2; wait
 cd ioapi-3.2
 git checkout -b 20200828
 cp Makefile.template Makefile
-echo -e "CMAQ_LIBRARIES = ${CMAQ_LIBRARIES}\n"
+echo -e "This is the location of CMAQ_LIBRARIES = "${CMAQ_LIBRARIES}"\n"
+sleep 10
 
 edit_file Makefile
 
 cd ioapi
 cp Makeinclude.Linux2_x86_64ifort Makeinclude.Linux2_x86_64ifort_intel20.2
-echo -e "CMAQ_LIBRARIES = ${CMAQ_LIBRARIES}\n"
+echo -e "This is the location of CMAQ_LIBRARIES = "${CMAQ_LIBRARIES}"\n"
+sleep 10
 
 edit_file Makeinclude.Linux2_x86_64ifort_intel20.2
 
 cp Makefile.nocpl Makefile
-echo -e "CMAQ_LIBRARIES = ${CMAQ_LIBRARIES}\n"
 
 edit_file Makefile
 
 cd ../m3tools
 cp Makefile.nocpl Makefile
-echo -e "CMAQ_LIBRARIES = ${CMAQ_LIBRARIES}\n"
+echo -e "This is the location of CMAQ_LIBRARIES = "${CMAQ_LIBRARIES}"\n"
+sleep 10
 
 edit_file Makefile
 
@@ -166,12 +169,9 @@ edit_file config_cmaq.csh
 
 
 # Pario and stenex libs
-#! EDITAR IOAPI PARAMS para quitarle la &
-cd ${CMAQ_LIBRARIES}/ioapi-3.2/ioapi/fixed_src
-edit_file PARMS3.EXT
-
 cd ${CMAQ_HOME}
-mkdir PARIO_v4.7.1 STENEX_v4.7.1
+mkdir PARIO_v4.7.1
+mkdir STENEX_v4.7.1
 
 git clone -b 4.7.1 https://github.com/USEPA/CMAQ.git CMAQ_v4.7.1;wait
 
